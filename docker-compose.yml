@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  stealthcipher:
+    build:
+      context: ./
+      dockerfile: release.Dockerfile
+    container_name: stealthcipher
+    restart: always
+    volumes:
+      - ".:/app"
+    ports:
+      - "8080:8080"

@@ -1,0 +1,6 @@
+Flask-RESTful
+Flask
+gunicorn
+flask-apispec
+jinja2
+cryptography
