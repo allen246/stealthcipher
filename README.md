@@ -29,4 +29,14 @@ Welcome to the Encryptor/Decryptor web application! This Flask-based tool allows
 3.  Open your web browser and navigate to http://localhost:8080 to access the application.
 
 ### License
+
 This project is licensed under the MIT License.
+
+### Hosted Version
+
+This application is also hosted at http://developertoolkit.net/. Feel free to visit the hosted version for a quick demonstration.
+
+### Screenshot
+
+![image](https://github.com/allen246/stealthcipher/assets/59170514/ff8afed3-f53d-41d9-95fe-bfe6327ff70c)
+
