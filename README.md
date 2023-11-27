@@ -19,8 +19,8 @@ Welcome to the Encryptor/Decryptor web application! This Flask-based tool allows
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/encryptor-decryptor.git
-   cd encryptor-decryptor
+   git clone https://github.com/allen246/stealthcipher.git
+   cd stealthcipher
    ```
 2.  Build and run the Docker container:
    ```
