@@ -11,13 +11,6 @@ app = Flask(__name__)
 def index():
     return render_template('layout.html')
 
-
-@app.route('/health_check', methods=['GET'])
-def health_check():
-    response_data = {'message': 'API is working fine'}
-    print(str(response_data))
-    return jsonify(response_data)
-
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
     data = request.form['data']
@@ -36,14 +29,14 @@ def encrypt():
 
 @app.route('/decrypt', methods=['POST'])
 def decrypt():
-    encrypted_data = request.form['encrypted_data']
+    data = request.form['encrypted_data']
     key = request.form['key']
 
     key = derive_key(key, b'nithins')
     cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
     decryptor = cipher.decryptor()
 
-    ciphertext = base64.urlsafe_b64decode(encrypted_data)
+    ciphertext = base64.urlsafe_b64decode(data)
     decrypted_data = decryptor.update(ciphertext) + decryptor.finalize()
 
     return jsonify({'result': decrypted_data.rstrip(b' ').decode('utf-8')})
