@@ -1,6 +1,9 @@
+<!-- layout.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='StealthCipher.png') }}" type="image/x-icon" sizes="256x256">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stealth Cipher</title>
@@ -105,9 +108,16 @@
 
     <script>
         function encrypt() {
+            console.log('Encrypt function called.');
             var data = document.getElementById('data').value;
             var key = document.getElementById('key').value;
-    
+
+            // Input validation
+            if (!data || !key) {
+                alert('Data and key are required.');
+                return;
+            }
+
             // Make AJAX call to Flask server
             fetch('/encrypt', {
                 method: 'POST',
@@ -119,18 +129,33 @@
                     'key': key,
                 }),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Encryption failed. Please check your input.');
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('result').value = data.result;
                 resetCopyButton();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                alert('Error: ' + error.message);
+                console.error('Error:', error);
+            });
         }
-    
+
         function decrypt() {
+            console.log('Decrypt function called.'); 
             var encryptedData = document.getElementById('data').value;
             var key = document.getElementById('key').value;
-    
+
+            // Input validation
+            if (!encryptedData || !key) {
+                alert('Encrypted data and key are required.');
+                return;
+            }
+
             // Make AJAX call to Flask server
             fetch('/decrypt', {
                 method: 'POST',
@@ -142,14 +167,22 @@
                     'key': key,
                 }),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Decryption failed. Please check your input.');
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('result').value = data.result;
                 resetCopyButton();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                alert('Error: ' + error.message);
+                console.error('Error:', error);
+            });
         }
-    
+
         function copyToClipboard() {
             var result = document.getElementById('result').value;
     
