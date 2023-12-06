@@ -4,7 +4,7 @@ services:
   stealthcipher:
     build:
       context: ./
-      dockerfile: release.Dockerfile
+      dockerfile: Dockerfile
     container_name: stealthcipher
     restart: always
     volumes:
