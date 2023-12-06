@@ -33,4 +33,4 @@ jobs:
         IMAGE_TAG: latest
       run: |
         docker build -t stealthcipher .
-        docker push public.ecr.aws/w3i9k5q2/stealthcipher:latest
+        docker push stealthcipher:latest
