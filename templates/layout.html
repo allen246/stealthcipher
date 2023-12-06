@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='StealthCipher.png') }}" type="image/x-icon" sizes="256x256">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='StealthCipher.png') }}" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stealth Cipher</title>
@@ -82,22 +82,22 @@
         <h1>Stealth Cipher</h1>
         <form id="cipherForm">
             <div class="mb-3">
-                <label for="data">Data:</label>
-                <input type="text" class="form-control" id="data" name="data" required>
+                <!-- <label for="data">Data:</label> -->
+                <input type="text" class="form-control" id="data" name="data" placeholder="Enter Data" required>
             </div>
             <div class="mb-3">
-                <label for="key">Key:</label>
-                <input type="text" class="form-control" id="key" name="key" required>
+                <!-- <label for="key">Key:</label> -->
+                <input type="text" class="form-control" id="key" name="key" placeholder="Enter Key" required>
             </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-success" onclick="encrypt()">Encrypt</button>
                 <button type="button" class="btn btn-success" onclick="decrypt()">Decrypt</button>
             </div>
             <div class="mb-2 mt-3">
-                <label for="result">Result:</label>
+                <!-- <label for="result">Result:</label> -->
             </div>
             <div class="mb-3">
-                <textarea class="form-control" id="result" readonly></textarea>
+                <textarea class="form-control" id="result" readonly placeholder="Result"></textarea>
             </div>
             <button type="button" class="btn btn-success" onclick="copyToClipboard()" id="copyButton">Copy</button>
         </form>
@@ -184,28 +184,32 @@
         }
 
         function copyToClipboard() {
-            var result = document.getElementById('result').value;
-    
-            // Check if the result is not empty
-            if (result.trim() !== '') {
-                // Copy result to clipboard
-                navigator.clipboard.writeText(result)
-                    .then(() => {
-                        var copyButton = document.getElementById('copyButton');
-                        copyButton.innerText = 'Copied';
-                        copyButton.classList.add('copied');
-                    })
-                    .catch(err => {
-                        console.error('Error copying to clipboard:', err);
-                    });
-            }
-        }
-    
-        function resetCopyButton() {
+        var resultTextArea = document.getElementById('result');
+        var result = resultTextArea.value.trim();
+
+        // Check if the result is not empty
+        if (result !== '') {
+            // Select the text in the textarea
+            resultTextArea.select();
+            resultTextArea.setSelectionRange(0, result.length);
+
+            // Execute the copy command
+            document.execCommand('copy');
+
+            // Deselect the text
+            resultTextArea.setSelectionRange(0, 0);
+
             var copyButton = document.getElementById('copyButton');
-            copyButton.innerText = 'Copy';
-            copyButton.classList.remove('copied');
+            copyButton.innerText = 'Copied';
+            copyButton.classList.add('copied');
         }
+    }
+
+    function resetCopyButton() {
+        var copyButton = document.getElementById('copyButton');
+        copyButton.innerText = 'Copy';
+        copyButton.classList.remove('copied');
+    }
     </script>
 </body>
 </html>
