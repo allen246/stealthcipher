@@ -32,5 +32,6 @@ jobs:
         ECR_REPOSITORY: stealthcipher
         IMAGE_TAG: latest
       run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/w3i9k5q2
         docker build -t public.ecr.aws/w3i9k5q2/stealthcipher:latest .
         docker push public.ecr.aws/w3i9k5q2/stealthcipher:latest
