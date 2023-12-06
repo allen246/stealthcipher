@@ -32,5 +32,5 @@ jobs:
         ECR_REPOSITORY: stealthcipher
         IMAGE_TAG: latest
       run: |
-        docker build -t stealthcipher .
-        docker push stealthcipher:latest
+        docker build -t public.ecr.aws/w3i9k5q2/stealthcipher:latest .
+        docker push public.ecr.aws/w3i9k5q2/stealthcipher:latest
