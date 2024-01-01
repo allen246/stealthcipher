@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='StealthCipher.png') }}" type="image/x-icon" sizes="256x256">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='StealthCipher.png') }}" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stealth Cipher</title>
@@ -11,102 +12,108 @@
     <!-- Bootstrap CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #212529;
-            color: #adb5bd;
-        }
+    <!-- Bootstrap Toast CSS via CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
 
-        .container {
-            background-color: #343a40;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-            margin-top: 50px;
-        }
+    <!-- Toast container -->
+    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 11"></div>
 
-        h1 {
-            color: #28a745;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-        label {
-            color: #6c757d;
-        }
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 
-        input,
-        textarea {
-            border: 1px solid #495057;
-            border-radius: 5px;
-            padding: 8px;
-            margin-bottom: 15px;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: #495057;
-            color: #dee2e6;
-        }
-
-        button {
-            width: 48%;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #28a745;
-        }
-
-        #copyButton {
-            width: 100%;
-            background-color: #1c6a2e;
-            color: #ffffff;
-            transition: background-color 0.3s;
-        }
-
-        #copyButton:hover {
-            background-color: #19662a;
-        }
-
-        #copyButton.copied {
-            background-color: #155f25;
-        }
-    </style>
+    <!-- Bootstrap JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Stealth Cipher</h1>
         <form id="cipherForm">
             <div class="mb-3">
-                <label for="data">Data:</label>
-                <input type="text" class="form-control" id="data" name="data" required>
+                <input type="text" class="form-control" id="data" name="data" placeholder="Enter Data" required>
             </div>
             <div class="mb-3">
-                <label for="key">Key:</label>
-                <input type="text" class="form-control" id="key" name="key" required>
+                <input type="text" class="form-control" id="key" name="key" placeholder="Enter Key" required>
             </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-success" onclick="encrypt()">Encrypt</button>
                 <button type="button" class="btn btn-success" onclick="decrypt()">Decrypt</button>
             </div>
             <div class="mb-2 mt-3">
-                <label for="result">Result:</label>
+                <!-- Additional layout elements can be added here if needed -->
             </div>
             <div class="mb-3">
-                <textarea class="form-control" id="result" readonly></textarea>
+                <textarea class="form-control" id="result" readonly placeholder="Result"></textarea>
             </div>
             <button type="button" class="btn btn-success" onclick="copyToClipboard()" id="copyButton">Copy</button>
         </form>
     </div>
 
-    <!-- Bootstrap JS via CDN (Optional, only if needed) -->
+    <!-- Bootstrap JS via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Bootstrap Toast JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
+
+        /**
+         * Shows a toast message.
+         * @param {string} message - The message to display in the toast.
+         * @param {string} type - The type of the toast (e.g., 'success', 'warning', 'danger').
+         */
+         function showToast(message, type, backgroundColor) {
+            var toastContainer = document.getElementById('toastContainer');
+            var toastId = 'toast' + Date.now();
+
+            // Create a new toast element
+            var toastElement = document.createElement('div');
+            toastElement.id = toastId;
+            toastElement.className = 'toast';
+            toastElement.setAttribute('role', 'alert');
+            toastElement.setAttribute('aria-live', 'assertive');
+            toastElement.setAttribute('aria-atomic', 'true');
+
+            // Set the toast type if provided
+            if (type && !backgroundColor) {
+                toastElement.classList.add('toast-' + type);
+            }
+
+            // Set the custom background color if provided
+            if (backgroundColor) {
+                toastElement.style.backgroundColor = backgroundColor;
+            }
+
+            // Create the toast body
+            var toastBody = document.createElement('div');
+            toastBody.className = 'toast-body';
+            toastBody.innerText = message;
+
+            // Add the toast body to the toast element
+            toastElement.appendChild(toastBody);
+
+            // Add the toast element to the container
+            toastContainer.appendChild(toastElement);
+
+            // Initialize the Bootstrap Toast
+            var toast = new bootstrap.Toast(document.getElementById(toastId));
+
+            // Show the toast
+            toast.show();
+
+            // Remove the toast element after 10 seconds
+            setTimeout(function () {
+                toast.dispose();
+                toastContainer.removeChild(toastElement);
+            }, 10000);
+        }
+
+        /**
+         * Encrypts the data using the Flask server.
+         */
         function encrypt() {
             console.log('Encrypt function called.');
             var data = document.getElementById('data').value;
@@ -114,7 +121,7 @@
 
             // Input validation
             if (!data || !key) {
-                alert('Data and key are required.');
+                showToast('Data and key are required.', 'warning');
                 return;
             }
 
@@ -131,7 +138,7 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Encryption failed. Please check your input.');
+                    throw new Error('Encryption failed. Please check your input.', 'error');
                 }
                 return response.json();
             })
@@ -140,11 +147,14 @@
                 resetCopyButton();
             })
             .catch(error => {
-                alert('Error: ' + error.message);
+                showToast('Error: ' + error.message, 'error');
                 console.error('Error:', error);
             });
         }
 
+        /**
+         * Decrypts the encrypted data using the Flask server.
+         */
         function decrypt() {
             console.log('Decrypt function called.'); 
             var encryptedData = document.getElementById('data').value;
@@ -152,7 +162,7 @@
 
             // Input validation
             if (!encryptedData || !key) {
-                alert('Encrypted data and key are required.');
+                showToast('Encrypted data and key are required.', 'warning');
                 return;
             }
 
@@ -169,7 +179,7 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Decryption failed. Please check your input.');
+                    throw new Error('Decryption failed. Please check your input.', 'error');
                 }
                 return response.json();
             })
@@ -178,29 +188,39 @@
                 resetCopyButton();
             })
             .catch(error => {
-                alert('Error: ' + error.message);
+                showToast('Error: ' + error.message, 'error');
                 console.error('Error:', error);
             });
         }
 
+        /**
+         * Copies the result to the clipboard.
+         */
         function copyToClipboard() {
-            var result = document.getElementById('result').value;
-    
+            var resultTextArea = document.getElementById('result');
+            var result = resultTextArea.value.trim();
+
             // Check if the result is not empty
-            if (result.trim() !== '') {
-                // Copy result to clipboard
-                navigator.clipboard.writeText(result)
-                    .then(() => {
-                        var copyButton = document.getElementById('copyButton');
-                        copyButton.innerText = 'Copied';
-                        copyButton.classList.add('copied');
-                    })
-                    .catch(err => {
-                        console.error('Error copying to clipboard:', err);
-                    });
+            if (result !== '') {
+                // Select the text in the textarea
+                resultTextArea.select();
+                resultTextArea.setSelectionRange(0, result.length);
+
+                // Execute the copy command
+                document.execCommand('copy');
+
+                // Deselect the text
+                resultTextArea.setSelectionRange(0, 0);
+
+                var copyButton = document.getElementById('copyButton');
+                copyButton.innerText = 'Copied';
+                copyButton.classList.add('copied');
             }
         }
-    
+
+        /**
+         * Resets the copy button to its initial state.
+         */
         function resetCopyButton() {
             var copyButton = document.getElementById('copyButton');
             copyButton.innerText = 'Copy';
