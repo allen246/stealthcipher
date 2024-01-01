@@ -54,12 +54,29 @@ button:hover {
 }
 
 .toast {
-    background-color: #4caf50;
+    /* Common styles for all toasts */
+    position: relative;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4a90e2;
     color: #fff;
 }
 
-.toast-body {
+/* Styles for success toast */
+.toast-success {
+    background-color: #82dd55;
     color: #fff;
 }
 
-/* Add additional styles as needed */
+/* Styles for success toast */
+.toast-warning {
+    background-color: #edb95e;
+    color: #000000;
+}
+
+/* Styles for error toast */
+.toast-error {
+    background-color: #e23636;
+    color: #fff;
+}

@@ -1,5 +1,5 @@
 (function() {
-    function showToast(message, type, backgroundColor) {
+    function showToast(message, type, backgrundColor) {
             var toastContainer = document.getElementById('toastContainer');
             var toastId = 'toast' + Date.now();
 
@@ -13,7 +13,7 @@
 
             // Set the toast type if provided
             if (type && !backgroundColor) {
-                toastElement.classList.add('bg-' + type);
+                toastElement.classList.add('toast-' + type);
             }
 
             // Set the custom background color if provided
@@ -26,14 +26,17 @@
             toastBody.className = 'toast-body';
             toastBody.innerText = message;
 
-            // Add the toast body to the toast element
-            toastElement.appendChild(toastBody);
+            // Add close button to toast
+            toastElement.appendChild(createCloseButton());
+            toastElement.appendChild(toastBody); // Add the toast body to the toast element
 
             // Add the toast element to the container
             toastContainer.appendChild(toastElement);
 
             // Initialize the Bootstrap Toast
-            var toast = new bootstrap.Toast(document.getElementById(toastId));
+            var toast = new bootstrap.Toast(document.getElementById(toastId), {
+                autohide: false // Prevents auto-hiding when close button is clicked
+            });
 
             // Show the toast
             toast.show();
@@ -44,6 +47,18 @@
                 toastContainer.removeChild(toastElement);
             }, 10000);
         }
+
+        function createCloseButton() {
+            var closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn-close';
+            closeButton.setAttribute('data-bs-dismiss', 'toast');
+            closeButton.setAttribute('aria-label', 'Close');
+
+            return closeButton;
+        }
+
+        window.showToast = showToast;
 
     function performOperation(operation) {
         console.log(`${operation} function called.`);

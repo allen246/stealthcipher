@@ -19,62 +19,13 @@
     <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 11"></div>
 
     <!-- Custom Styles -->
-    <style>
-        body {
-            background-color: #212529;
-            color: #adb5bd;
-        }
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-        .container {
-            background-color: #343a40;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-            margin-top: 50px;
-        }
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 
-        h1 {
-            color: #28a745;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        label {
-            color: #6c757d;
-        }
-
-        input,
-        textarea {
-            border: 1px solid #495057;
-            border-radius: 5px;
-            padding: 8px;
-            margin-bottom: 15px;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: #495057;
-            color: #dee2e6;
-        }
-
-        button {
-            width: 48%;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            background-color: #28a745;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        #copyButton {
-            width: 100%;
-            color: #ffffff;
-        }
-    </style>
+    <!-- Bootstrap JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -128,7 +79,7 @@
 
             // Set the toast type if provided
             if (type && !backgroundColor) {
-                toastElement.classList.add('bg-' + type);
+                toastElement.classList.add('toast-' + type);
             }
 
             // Set the custom background color if provided
@@ -170,7 +121,7 @@
 
             // Input validation
             if (!data || !key) {
-                showToast('Data and key are required.');
+                showToast('Data and key are required.', 'warning');
                 return;
             }
 
@@ -187,7 +138,7 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Encryption failed. Please check your input.');
+                    throw new Error('Encryption failed. Please check your input.', 'error');
                 }
                 return response.json();
             })
@@ -196,7 +147,7 @@
                 resetCopyButton();
             })
             .catch(error => {
-                showToast('Error: ' + error.message);
+                showToast('Error: ' + error.message, 'error');
                 console.error('Error:', error);
             });
         }
@@ -211,7 +162,7 @@
 
             // Input validation
             if (!encryptedData || !key) {
-                showToast('Encrypted data and key are required.');
+                showToast('Encrypted data and key are required.', 'warning');
                 return;
             }
 
@@ -228,7 +179,7 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Decryption failed. Please check your input.');
+                    throw new Error('Decryption failed. Please check your input.', 'error');
                 }
                 return response.json();
             })
@@ -237,7 +188,7 @@
                 resetCopyButton();
             })
             .catch(error => {
-                showToast('Error: ' + error.message);
+                showToast('Error: ' + error.message, 'error');
                 console.error('Error:', error);
             });
         }
