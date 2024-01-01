@@ -1,0 +1,65 @@
+body {
+    background-color: #212529;
+    color: #adb5bd;
+}
+
+.container {
+    background-color: #343a40;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+h1 {
+    color: #28a745;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+label {
+    color: #6c757d;
+}
+
+input,
+textarea {
+    border: 1px solid #495057;
+    border-radius: 5px;
+    padding: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #495057;
+    color: #dee2e6;
+}
+
+button {
+    width: 48%;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #28a745;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#copyButton {
+    width: 100%;
+    color: #ffffff;
+}
+
+.toast {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.toast-body {
+    color: #fff;
+}
+
+/* Add additional styles as needed */
